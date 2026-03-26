@@ -1,0 +1,24 @@
+name: iOS Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+      - name: Bağımlılıkları yükle
+        run: flutter pub get
+      - name: iOS build al
+        run: flutter build ios --release --no-codesign
+      - name: Zip yap
+        run: |
+          cd build/ios/iphoneos
+          zip -r app.zip Runner.app
+      - name: Artifact kaydet
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: build/ios/iphoneos/app.zip
