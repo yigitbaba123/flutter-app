@@ -14,18 +14,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.41.5'
           channel: 'stable'
       - name: Bağımlılıkları yükle
         run: flutter pub get
-      - name: iOS build al
-        run: flutter build ios --release --no-codesign
+      - name: iOS simulator build al
+        run: flutter build ios --simulator --debug
       - name: Zip yap
         run: |
-          cd build/ios/iphoneos
+          cd build/ios/iphonesimulator
           zip -r app.zip Runner.app
       - name: Artifact kaydet
         uses: actions/upload-artifact@v4
         with:
           name: ios-build
-          path: mobile/build/ios/iphoneos/app.zip
+          path: mobile/build/ios/iphonesimulator/app.zip
